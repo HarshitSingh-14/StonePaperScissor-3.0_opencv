@@ -46,7 +46,7 @@ while (True):
         if timer>3 :
             stateResult=True
             timer= 0
-
+            playerMove=0
             if hands:
                 player_input = 0
                 hand= hands[0]
@@ -63,7 +63,8 @@ while (True):
     #             Computer side game
                 randomNumber = random.randint(1,3)
                 get_img = cv2.imread(f'computer_chance/{randomNumber}.png',cv2.IMREAD_UNCHANGED)
-                imgBG = cvzone.overlayPNG(imgBG, get_img,[0,0])
+                # imgBG = cvzone.overlayPNG(imgBG, get_img,[0,0])
+                # imgBG[110:, 240:] = get_img
 
                 print(randomNumber)
 
@@ -77,14 +78,20 @@ while (True):
 
     imgBG[234:504,644:1024]= imgScaled # Calculate 540 - 80*2 = diff ... similarly   or hiit and try
 
-    if stateResult:
-        imgBG = cvzone.overlayPNG(imgBG, get_img, (0,0))
+    # if stateResult:
+    #     # imgBG = cvzone.overlayPNG(imgBG, get_img, (0,0))
+
+
+    cv2.putText(imgBG, str(total_scores[0]), (410, 215), cv2.FONT_HERSHEY_PLAIN, 4, (0, 0,255), 6)
+    cv2.putText(imgBG, str(total_scores[1]), (890, 215), cv2.FONT_HERSHEY_PLAIN, 4, (0, 0, 255), 6)
+
 
     cv2.imshow("image",imgBG)
-    cv2.imshow("scaled",imgScaled)
+    # cv2.imshow("scaled",imgScaled)
     key = cv2.waitKey(1)
 
     # STARTING GAME
     if key ==ord(' '):
         gameStart= True
         init_timer = time.time()
+        stateResult=False
